@@ -2,15 +2,26 @@ import React from "react";
 import Weather from "./Weather";
 import "./App.css";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Hello from React</h1>
-        <Weather city="Tokyo" />
-      </header>
+      <h1>Weather Project</h1>
+      <Weather />
+      <footer>
+        <small>
+          Coded by{" "}
+          <a href="https://www.linkedin.com/in/sofiacasenave" target="_blank">
+            Sofia Casenave
+          </a>{" "}
+          |{" "}
+          <a
+            href="https://github.com/SofiaCasenave/react_weather_project"
+            target="_blank"
+          >
+            GitHub open-source
+          </a>
+        </small>
+      </footer>
     </div>
   );
 }
-
-export default App;
