@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import WeatherForecast from "./WeatherForecast";
+import PresentDate from "./PresentDate";
 
 import "./WeatherProject.css";
 
@@ -10,7 +11,7 @@ export default function WeatherProject(props) {
   function displayTemperature(response) {
     setWeatherData({
       ready: true,
-      date: "Saturday, 9 November 2019 | 16:27 |",
+      date: new Date(response.data.dt * 1000),
       description: response.data.weather[0].description,
       city: response.data.name,
       iconUrl: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
@@ -67,7 +68,7 @@ export default function WeatherProject(props) {
           </div>
           <div className="currentDateWeather">
             <p>
-              <span>{weatherData.date}</span>
+              <PresentDate date={weatherData.date} />
               <span> {weatherData.description}</span>
             </p>
           </div>
