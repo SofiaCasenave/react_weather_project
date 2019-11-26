@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import WeatherForecast from "./WeatherForecast";
-import PresentDate from "./PresentDate";
+import WeatherInfo from "./WeatherInfo";
 
 import "./WeatherProject.css";
 
 export default function WeatherProject(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
   function displayTemperature(response) {
     setWeatherData({
       ready: true,
@@ -22,6 +23,21 @@ export default function WeatherProject(props) {
     });
   }
 
+  function search() {
+    const apiKey = "3a94f3778290bfeee61278505dbbe51d";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(displayTemperature);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleCityChange(event) {
+    setCity(event.target.value);
+  }
+
   if (weatherData.ready) {
     return (
       <div className="WeatherProject">
@@ -29,12 +45,13 @@ export default function WeatherProject(props) {
           <div className="row">
             <div className="col-7">
               <div className="searchEngine">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <input
                     type="search"
                     placeholder=" Search City"
                     autoFocus="on"
                     autoComplete="off"
+                    onChange={handleCityChange}
                   />
                   <button type="submit" value="Search">
                     <i className="fas fa-search" />
@@ -66,52 +83,7 @@ export default function WeatherProject(props) {
               className="float-right"
             />
           </div>
-          <div className="currentDateWeather">
-            <p>
-              <PresentDate date={weatherData.date} />
-              <span> {weatherData.description}</span>
-            </p>
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <div className="currentCityName">
-                <div className="city">
-                  <h1>{weatherData.city}</h1>
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="currentCityTemperature">
-                <div className="weatherTemperature">
-                  <span>{Math.round(weatherData.temperature)} </span>
-                  <span className="weatherUnit">
-                    {" "}
-                    <a href="/" className="active">
-                      {" "}
-                      ºC
-                    </a>{" "}
-                    | <a href="/">ºF</a>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <div className="weatherIcon">
-                <img src={weatherData.iconUrl} alt={weatherData.description} />
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="weatherData">
-                <ul>
-                  <li>Humidity: {weatherData.humidity}%</li>
-                  <li>Wind: {Math.round(weatherData.wind)} km/h</li>
-                  <li>Pressure: {weatherData.pressure} mb</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <WeatherInfo data={weatherData} />
           <hr className="lineDivider" />
           <WeatherForecast />
           <div className="identification">
@@ -147,10 +119,7 @@ export default function WeatherProject(props) {
       </div>
     );
   } else {
-    const apiKey = "3a94f3778290bfeee61278505dbbe51d";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&APPID=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(displayTemperature);
-
+    search();
     return <Loader type="Oval" color="#127fce" height={100} width={100} />;
   }
 }
