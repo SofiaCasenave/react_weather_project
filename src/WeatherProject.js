@@ -23,6 +23,15 @@ export default function WeatherProject(props) {
     });
   }
 
+  function searchCity1(london) {
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&APPID=3a94f3778290bfeee61278505dbbe51d&units=metric`;
+    axios.get(apiUrl).then(displayTemperature);
+  }
+  function searchCity2(venice) {
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Venice,it&APPID=3a94f3778290bfeee61278505dbbe51d&units=metric`;
+    axios.get(apiUrl).then(displayTemperature);
+  }
+
   function search() {
     const apiKey = "3a94f3778290bfeee61278505dbbe51d";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}&units=metric`;
@@ -69,8 +78,12 @@ export default function WeatherProject(props) {
             </div>
           </div>
           <div className="cities">
-            <a href="/">London</a>
-            <a href="/">Venice</a>
+            <a href="/" onClick={searchCity1}>
+              London
+            </a>
+            <a href="/" onClick={searchCity2}>
+              Venice
+            </a>
             <a href="/">New York</a>
             <a href="/">Toronto</a>
             <a href="/">Sydney</a>
