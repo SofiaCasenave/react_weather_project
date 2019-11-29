@@ -83,10 +83,8 @@ p {
   font-size: 40px;
   font-weight: 600;
 }
-.weatherIcon img {
-  height: 120px;
-  width: 120px;
-  margin: -15px 0px 0px 30px;
+.weatherIcon {
+  margin: 5px 0px 15px 50px;
 }
 .weatherTemperature {
   text-align: left;

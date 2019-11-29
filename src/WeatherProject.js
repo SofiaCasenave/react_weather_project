@@ -3,19 +3,19 @@ import axios from "axios";
 import Loader from "react-loader-spinner";
 import WeatherForecast from "./WeatherForecast";
 import WeatherInfo from "./WeatherInfo";
-
 import "./WeatherProject.css";
 
 export default function WeatherProject(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
+
   function displayTemperature(response) {
     setWeatherData({
       ready: true,
       date: new Date(response.data.dt * 1000),
       description: response.data.weather[0].description,
       city: response.data.name,
-      iconUrl: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      icon: response.data.weather[0].icon,
       temperature: response.data.main.temp,
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
@@ -32,12 +32,6 @@ export default function WeatherProject(props) {
     axios.get(apiUrl).then(displayTemperature);
   }
 
-  function search() {
-    const apiKey = "3a94f3778290bfeee61278505dbbe51d";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(displayTemperature);
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
     search();
@@ -45,6 +39,12 @@ export default function WeatherProject(props) {
 
   function handleCityChange(event) {
     setCity(event.target.value);
+  }
+
+  function search() {
+    const apiKey = "3a94f3778290bfeee61278505dbbe51d";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(displayTemperature);
   }
 
   if (weatherData.ready) {
@@ -98,7 +98,7 @@ export default function WeatherProject(props) {
           </div>
           <WeatherInfo data={weatherData} />
           <hr className="lineDivider" />
-          <WeatherForecast />
+          <WeatherForecast city={weatherData.city} />
           <div className="identification">
             <footer>
               GitHub{" "}
