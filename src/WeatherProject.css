@@ -58,12 +58,24 @@ h3 {
 a {
   color: #127fce;
 }
-.cities a {
+.exampleCity {
   color: #127fce;
   font-size: 15px;
   font-weight: 550;
-  margin: 4px 14px 0px 0px;
+  margin: 2px 14px 0px 0px;
+  padding: 0px;
   text-align: center;
+  border: none;
+  display: inline;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+.exampleCity:hover {
+  text-decoration: underline;
+}
+.exampleCity:focus {
+  outline: none;
 }
 .lineDivider {
   border-top: 3px solid #127fce;
@@ -137,4 +149,11 @@ p {
 }
 .author a {
   color: #127fce;
+}
+.loader {
+  margin: 60px auto;
+  display: block;
+  text-align: center;
+  padding: 120px 0px;
+  opacity: 0.8;
 }
