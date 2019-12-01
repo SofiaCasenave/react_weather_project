@@ -38,6 +38,27 @@ export default function WeatherProject(props) {
     axios.get(apiUrl).then(displayTemperature);
   }
 
+  function getLocalTemp(lat, lon) {
+    const apiKey = "3a94f3778290bfeee61278505dbbe51d";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(displayTemperature);
+  }
+
+  function showPosition(position) {
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    getLocalTemp(latitude, longitude);
+  }
+
+  function getCurrentGps() {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+
+  function getCurrentPosition(event) {
+    event.preventDefault();
+    getCurrentGps();
+  }
+
   function suggestedCity1(city) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&APPID=3a94f3778290bfeee61278505dbbe51d&units=metric`;
     axios.get(apiUrl).then(displayTemperature);
@@ -80,7 +101,11 @@ export default function WeatherProject(props) {
                 <button type="submit" value="Search">
                   <i className="fas fa-search" />
                 </button>
-                <button type="submit" value="Search">
+                <button
+                  type="submit"
+                  value="Search"
+                  onClick={getCurrentPosition}
+                >
                   <i className="fas fa-map-marker-alt" />
                 </button>
               </form>
